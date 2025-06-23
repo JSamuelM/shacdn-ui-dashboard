@@ -16,7 +16,7 @@ import { ChevronDownIcon, ChevronsUpDownIcon, ChevronUpIcon, Info, MoreHorizonta
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 
-const myCustomFilterFn: FilterFn<Payment> = (row: Row<Payment>, columnId: string, filterValue: any, addMeta: (meta: any) => void) => {
+const myCustomFilterFn: FilterFn<Payment> = (row: Row<Payment>, columnId: string, filterValue: string, addMeta: (meta: any) => void) => {
   filterValue = filterValue.toLowerCase()
   const filterParts = filterValue.split(" ")
   const rowValues = 
