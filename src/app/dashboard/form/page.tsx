@@ -23,6 +23,7 @@ import {
   RadioGroupItem,
 } from "@/components/ui/radio-group"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Switch } from "@/components/ui/switch"
 import { CalendarIcon } from "lucide-react"
 
 const formSchema = z.object({
@@ -32,6 +33,10 @@ const formSchema = z.object({
   dateOfBirth: z.date({
     required_error: "A date of birth is required.",
   }),
+  marketingEmails: z.boolean()
+}).refine((data) => data.marketingEmails === true, {
+  message: 'You must agree to receive marketing emails.',
+  path: ["marketingEmails"]
 })
 
 export default function Page() {
@@ -41,7 +46,8 @@ export default function Page() {
     defaultValues: {
       username: "",
       email: "",
-      gender: undefined
+      gender: undefined,
+      marketingEmails: false
     },
   })
 
@@ -55,7 +61,7 @@ export default function Page() {
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-2 gap-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Username */}
           <FormField
             control={form.control}
@@ -165,6 +171,28 @@ export default function Page() {
               </FormItem>
             )}
           />
+
+          {/* Markgeint Emails - Switch */}
+           <FormField
+              control={form.control}
+              name="marketingEmails"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                  <div className="space-y-0.5">
+                    <FormLabel>Marketing emails</FormLabel>
+                    <FormDescription>
+                      Receive emails about your account.
+                    </FormDescription>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
 
           {/* Submit */}
           <Button type="submit">Submit</Button>
